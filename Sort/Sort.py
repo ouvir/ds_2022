@@ -1,5 +1,5 @@
 # 일반(selection,bubble,insertion)
-# 선택정렬 selectionSort
+#1. 선택정렬 selectionSort
 def selectionSort(A):
     for last in range(len(A)-1,0,-1):
         k= theLargest(A,last) # 큰 수 찾기
@@ -12,14 +12,14 @@ def theLargest(A, last :int) -> int:
             largest =i
     return largest
 
-# 버블정렬 bubbleSort
+#2. 버블정렬 bubbleSort
 def bubbleSort(A):
     for numElements in range(len(A),0,-1):
         for i in range(numElements-1):
             if A[i] > A[i+1]:
                 A[i],A[i+1] = A[i+1],A[i]
 
-# 삽입정렬 insertionSort
+#3. 삽입정렬 insertionSort
 def insertionSort(A):
     for i in range(1,len(A)):
         loc = i-1
@@ -30,7 +30,7 @@ def insertionSort(A):
         A[loc+1] = newItem
 
 # 고급(merge,,heap)
-# 병합정렬 mergeSort
+#1. 병합정렬 mergeSort
 def mergeSort(A, p:int,r:int):
     if p<r:
         q = (p+r) //2
@@ -54,7 +54,7 @@ def merge(A,p:int,q:int,r:int):
     while i <= r:
         A[i] = tmp[t]; t += 1;i += 1
 
-# 퀵 정렬 quickSort
+#2. 퀵 정렬 quickSort
 def quickSort(A,p:int,r:int):
     if p<r:
         q = partition(A,p,r)    # 분할
@@ -66,12 +66,12 @@ def partition(A,p:int,r:int)->int:
     i = p-1  # i는 1구역 끝지점
     for j in range(p,r): # j는 3구역 시작 지점
         if A[j] < x:
-            j += 1
+            i += 1
             A[i],A[j] = A[j],A[i]   # 교환
     A[i+1],A[r] = A[r],A[i+1]       # 기준 원소와 2구역 첫원소 교환
     return i+1
     
-# 힙정렬 heapSort
+#3. 힙정렬 heapSort
 def heapSort(A):
     buildHeap(A)
     for last in range(len(A)-1,0,-1):
@@ -95,3 +95,42 @@ def percolateDown(A,k:int,end:int):
         if A[k] < A[left]:
             A[k], A[left] = A[left], A[k]
             percolateDown(left) # 재귀
+#4. 쉘 정렬 shellSort
+#pass
+
+# 특수
+# 1. 계수 정렬 Counting Sort
+def countingSort(A) -> list:
+    k = max(A)
+    C = [0 for _ in range(k+1)]
+    for j in range(len(A)):
+        C[A[j]] += 1 # 카운팅
+    for i in range(1, k+1):
+        C[i] = C[i] + C[i-1] 
+        # 카운팅 리스트 원소마다, 자신 이전 원소들의 합을 더해줌
+    B = [0 for _ in range(len(A))] # 새 리스트 제작
+    for j in range(len(A)-1,-1,-1):
+        # 맨 뒤 원소부터, 원소가 들어갈 범위의 맨 뒤 위치로 들어감
+        B[C[A[j]]-1] = A[j]
+        C[A[j]] -= 1 
+        # 맨 뒤 위치 사용했으니, 그 다음 위치
+    return B
+
+# 2. 기수 정렬 Radix Sort
+import math
+
+def radixSort(A):
+    maxValue = max(A)
+    numDigits = math.ceil(math.log10(maxValue)) #자릿수 계산
+    bucket = [[]for _ in range(10)] #0~9 까지의 공간 제작
+    for i in range(numDigits):
+        for x in A:
+            y = (x//10**i)%10 # 이번 정렬 자릿수 y
+            bucket[y].append(x) # 공간에 담아주기
+        A.clear()
+        for j in range(10):
+            A.extend(bucket[j])
+            bucket[j].clear()
+
+# 3. 버킷 정렬 Bucket Sort
+# pass
