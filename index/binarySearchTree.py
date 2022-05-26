@@ -82,3 +82,26 @@ class BinarySearchTree:
         return self.__root == None
     def clear(self):
         self.__root = None
+        def getRoot(self)->TreeNode:
+        return self.__root
+    
+    def getRoot(self)->TreeNode:
+        return self.__root
+
+    def preorder(self, root):
+        if root != None:
+            print(root.item, end = " ")
+            self.preorder(root.left)
+            self.preorder(root.right)
+            
+    def inorder(self, root):
+        if root != None:
+            self.inorder(root.left)
+            print(root.item, end = " ")
+            self.inorder(root.right)
+
+    def postorder(self, root):
+        if root != None:
+            self.postorder(root.left)
+            self.postorder(root.right)
+            print(root.item, end = " ")
